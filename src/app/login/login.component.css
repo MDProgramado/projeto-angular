@@ -1,0 +1,77 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.img-fundo {
+    width: 50%;
+    height: 100vh;
+    float: left;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+.img-fundo img{
+    width: 100%;
+    opacity: 0.8;
+    
+    
+}
+.logo img{
+    width: 90%;
+    
+}
+.logo {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1.25rem;
+    margin-right: 1.0rem;
+}
+
+.titulo h2{
+    display: flex;
+    justify-content: center;
+    margin-top: 7rem;
+    color: #0d6efd;
+    padding: 0.5rem;
+}
+
+
+.login-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background-color: rgba(185, 185, 185, 0.377);
+}
+
+
+.input {
+    width: 100%;
+    padding: 0.625rem 1rem;
+    margin: 0.5rem 0;
+    box-sizing: border-box;
+    font-size: 1rem;
+    color: #333;
+    border: 2px solid #ccc;
+    border-radius: 0.5rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .input:focus {
+    border-color: #0d6efd; /* azul bonito */
+    outline: none;
+    box-shadow: 0 0 5px rgba(13, 110, 253, 0.5);
+  }
+
+  .butao {
+    width: 100%;
+    background-color: #0d6efd;
+    color: white;
+    padding: 0.625rem 1rem;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-top: 0.5rem;
+  }
