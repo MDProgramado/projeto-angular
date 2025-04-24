@@ -9,17 +9,41 @@
 </div>
 
 <div class="titulo"> 
-    <h2>{{titulo}}</h2>
+    <h2>{{titulo}}  </h2>
 </div>
 
+
+
 <div class="form"> 
-<form action=""> 
-    
-    <input type="email" placeholder="Digite seu email" name="email" id="email" class="input" required>
-    <label for="email"></label>
-    <input type="password" placeholder="Digite sua senha" name="senha" id="senha" class="input" required>
-    <label for="senha"></label>
-    <input type="submit" value="Entrar" class="butao"> 
+    <form [formGroup]="formulario" ng>
+        <div formGroupName="usuario">
+
+            @if (formulario.get('nome').hasError('required') && formulario.get('nome').touched) {
+                <p class="alert alert-warning">O campo nome é obrigatorio, por favor digite seu nome </p>
+            }
+    <input  type="text"
+            name="nome"
+            formControlName="nome"  
+            placeholder="Digite seu nome"   
+            id="nome" class="input" required>
+
+    <input  type="email"
+            name="login"
+            formControlName="email" 
+            placeholder="Digite seu email"  id="email" class="input" required>
+
+    <input type="password"
+           name="senha" 
+           formControlName="senha"   
+           placeholder="Digite sua senha"  id="senha" class="input" required>
+    <div id="passwordHelpBlock" class="form-text">
+        Sua senha deve ter de 8 a 20 caracteres, conter letras e números...
+      </div>
+   
+   <button type="submit" value="Entrar" class="butao" > 
+    Envia
+   </button>
+</div>
     
 </form>
 </div>
