@@ -18,9 +18,11 @@
     <form [formGroup]="formulario" ng>
         <div formGroupName="usuario">
 
-            @if (formulario.get('nome').hasError('required') && formulario.get('nome').touched) {
-                <p class="alert alert-warning">O campo nome é obrigatorio, por favor digite seu nome </p>
-            }
+            <p class="alert alert-warning"
+            *ngIf="formulario.get('usuario.nome')?.hasError('required')
+             &&formulario.get('usuario.nome')?.touched">
+        O campo nome é obrigatório, por favor digite seu nome.
+      </p>
     <input  type="text"
             name="nome"
             formControlName="nome"  
