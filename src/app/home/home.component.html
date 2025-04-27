@@ -1,0 +1,18 @@
+<div *ngIf="mostrarMensagem" class="d-flex justify-content-center align-items-center min-vh-100">
+    <div class="alert alert-primary alert-dismissible fade show d-flex align-items-center" role="alert">
+      <i class="bi bi-hand-thumbs-up me-2"></i>
+      <div>
+        <h4 class="alert-heading">Bem-vindo!</h4>
+        <p>Estamos felizes em tê-lo conosco. Aproveite sua experiência!</p>
+      </div>
+      <button type="button" class="btn-close" aria-label="Close" (click)="mostrarMensagem = false"></button>
+    </div>
+  </div>
+  
+  <img src="assets/img/ranger.png" alt="imagem ranger" class="img-ranger">
+  
+  <button class="butao" (click)="onLogout()">
+    <i class="bi bi-box-arrow-left"> Logout</i>
+  </button>
+  
+  
