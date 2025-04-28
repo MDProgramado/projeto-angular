@@ -12,41 +12,50 @@
     <h2>{{titulo}}  </h2>
 </div>
 
+<form [formGroup]="formulario" (ngSubmit)="enviarForm()">
 
+    
 
-<div class="form"> 
-    <form [formGroup]="formulario" ng>
-        <div formGroupName="usuario">
-
-            <p class="alert alert-warning"
-            *ngIf="formulario.get('usuario.nome')?.hasError('required')
-             &&formulario.get('usuario.nome')?.touched">
-        O campo nome é obrigatório, por favor digite seu nome.
-      </p>
-    <input  type="text"
-            name="nome"
-            formControlName="nome"  
-            placeholder="Digite seu nome"   
-            id="nome" class="input" required>
-
-    <input  type="email"
-            name="login"
-            formControlName="email" 
-            placeholder="Digite seu email"  id="email" class="input" required>
-
-    <input type="password"
-           name="senha" 
-           formControlName="senha"   
-           placeholder="Digite sua senha"  id="senha" class="input" required>
+        <div class="input-group mb-3">
+          <span class="input-group-text">
+            <i class="bi bi-person"></i>
+        </span>
+          <input type="email" 
+          class="form-control " id="email" 
+          placeholder="Digite seu email" name="email"
+          formControlName="email">
+         
+    </div>
+    
+    <div *ngIf="formulario.get('email')?.hasError('required') && formulario.get('email')?.touched"
+                class="mensagem-validacao">
+            Campo obrigatório
+    </div>
+            <div *ngIf="formulario.get('email')?.hasError('email') && formulario.get('email')?.touched"
+                class="mensagem-validacao">
+            Formato de e-mail errado
+    </div>  
+   
+    
+    <div class="input-group mb-3 ">
+        <span class="input-group-text">
+            <i class="bi bi-person-fill-lock"></i>
+        </span>
+        <input type="password" class="form-control"
+        id="senha" placeholder="Digite sua senha"
+        name="senha"
+        formControlName="senha">
+    </div>
+    
+     
     <div id="passwordHelpBlock" class="form-text">
         Sua senha deve ter de 8 a 20 caracteres, conter letras e números...
-      </div>
-   
-   <button type="submit" value="Entrar" class="butao" > 
-    Envia
-   </button>
-</div>
-    
+      </div> 
+      <button routerLink="/home"
+      [disabled]="formulario.invalid"
+      type="submit" [ngClass]="formulario.valid ? 'butao' : 'butao-desabitado'">
+        Enviar
+      </button>
 </form>
-</div>
+
 </div>
