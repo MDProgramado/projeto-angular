@@ -11,21 +11,18 @@ import { FormGroup } from '@angular/forms';
 export class AutentificarLoginService {
 
   private novoFormulario!: FormGroup;
-  private readonly API = 'htpp://localhost:3001/login'
+  private readonly API = 'http://localhost:3001/login';
 
-  constructor(private htpp: HttpClient) { }
+  constructor(private http: HttpClient) { }
 
-  autentificarFormulario(usuario: Usuario): Observable<Usuario[]> {
-    return this.htpp.post<Usuario[]>(this.API, usuario)
+  autentificarFormulario(usuario: Usuario): Observable<Usuario> {
+    return this.http.post<Usuario>(this.API, usuario);
   }
 
 
-  initForm() {
-    this.novoFormulario = this.formBuilder.group({
-      email: [''],
-      senha: ['']
-    })
-  }
+  
 }
+
+
 
   

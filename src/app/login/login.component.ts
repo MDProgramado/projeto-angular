@@ -1,10 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators, FormBuilder } from '@angular/forms';
-import { Usuario } from '../../../models/usuario.model';
-import { min } from 'rxjs';
 import { RouterLink } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 import { AutentificarLoginService } from '../services/autentificar-login.service';
+import { Usuario } from '../../../models/usuario.model';
+import { Router } from '@angular/router';
+
 
 @Component({
   standalone: true,
@@ -16,40 +18,38 @@ import { AutentificarLoginService } from '../services/autentificar-login.service
 export class LoginComponent {
 
   public imagemLogo: string = "assets/img/ford.png";
-   public imagemFundo: string = "assets/img/mustang.png";
-   public titulo: string = "Boas-vindas";
-    public formulario!: FormGroup;
+  public imagemFundo: string = "assets/img/mustang.png";
+  public titulo: string = "Boas-vindas";
+  public formulario!: FormGroup;
+  
 
-  constructor(private autentificarLogin: AutentificarLoginService) { }
+  constructor(private fb: FormBuilder, private htpp: HttpClient, private service: AutentificarLoginService, private router: Router) {}
+
+
   ngOnInit() {
-    // this.inicializarFormulario();
-    this.initForm();
     this.enviarForm();
-  
-  }
-
-  initForm() {
-    this.formulario = this.formBuilder.group({
-      id: new FormControl(0),
-      nome: [''],
-      email: [''],
-      senha: [''],
-      
-    })
+    this.onSubmit();
+    this.inicializarFormulario();
+    this.enviarForm();
   }
   
-  async enviar() {
-    const {
-      email,
-      senha
+   onSubmit(): void {
+    if (this.formulario.invalid) {
+      this.formulario.markAllAsTouched();
+      return;
     }
+    const dados: Usuario = this.formulario.value;
+    this.service.autentificarFormulario(dados)
+      .subscribe(() => this.router.navigate(['home']));
   }
-  // inicializarFormulario() {
-  //   this.formulario = new FormGroup({
-  //     email: new FormControl('', [Validators.required, Validators.email]),
-  //     senha: new FormControl('', [Validators.required, Validators.minLength(8)])
-  //   });
-  // }
+  
+  
+  inicializarFormulario() {
+    this.formulario = new FormGroup({
+      email: new FormControl('', [Validators.required, Validators.email]),
+      senha: new FormControl('', [Validators.required, Validators.minLength(8)])
+    });
+  }
 
   enviarForm() {
     this.formulario.markAllAsTouched();
@@ -59,6 +59,6 @@ export class LoginComponent {
   
     console.log(this.formulario.value);
   }
+
+
 }
-
-
