@@ -23,42 +23,36 @@ export class LoginComponent {
   public formulario!: FormGroup;
   
 
-  constructor(private fb: FormBuilder, private htpp: HttpClient, private service: AutentificarLoginService, private router: Router) {}
+  constructor(private fb: FormBuilder, private service: AutentificarLoginService, private router: Router) {}
 
 
   ngOnInit() {
-    this.enviarForm();
-    this.onSubmit();
     this.inicializarFormulario();
-    this.enviarForm();
   }
   
-   onSubmit(): void {
-    if (this.formulario.invalid) {
-      this.formulario.markAllAsTouched();
-      return;
-    }
-    const dados: Usuario = this.formulario.value;
-    this.service.autentificarFormulario(dados)
-      .subscribe(() => this.router.navigate(['home']));
+  onSubmit(): void {
+    if (this.formulario.invalid) return;
+  
+    this.service.autentificarFormulario(this.formulario.value).subscribe({
+      next: (res) => {
+        console.log('Autenticado:', res);
+        this.router.navigateByUrl('/home');
+      },
+      error: (err) => {
+        console.error('Falha no login:', err);
+        alert('Credenciais inválidas ou erro de conexão');
+      }
+    });
   }
   
   
   inicializarFormulario() {
     this.formulario = new FormGroup({
-      email: new FormControl('', [Validators.required, Validators.email]),
-      senha: new FormControl('', [Validators.required, Validators.minLength(8)])
+      nome: new FormControl('', [Validators.required]),
+      senha: new FormControl('', [
+        Validators.required, Validators.minLength(6) 
+    ])
     });
   }
-
-  enviarForm() {
-    this.formulario.markAllAsTouched();
-    if (this.formulario.invalid) {
-      return;
-    }
-  
-    console.log(this.formulario.value);
-  }
-
 
 }

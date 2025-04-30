@@ -20,18 +20,18 @@
           <span class="input-group-text">
             <i class="bi bi-person"></i>
         </span>
-          <input type="email" 
+          <input type="text" 
           class="form-control " id="email" 
-          placeholder="Digite seu email" name="email"
-          formControlName="email">
+          placeholder="Digite seu email" name="nome"
+          formControlName="nome">
          
     </div>
     
-    <div *ngIf="formulario.get('email')?.hasError('required') && formulario.get('email')?.touched"
+    <div *ngIf="formulario.get('nome')?.hasError('required') && formulario.get('nome')?.touched"
                 class="mensagem-validacao">
             Campo obrigatório
     </div>
-            <div *ngIf="formulario.get('email')?.hasError('email') && formulario.get('email')?.touched"
+            <div *ngIf="formulario.get('nome')?.hasError('email') && formulario.get('nome')?.touched"
                 class="mensagem-validacao">
             Formato de e-mail errado
     </div>  
