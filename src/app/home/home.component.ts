@@ -17,6 +17,7 @@ export class HomeComponent implements OnInit{
    
   usario: Usuario[] = [];
   mostrarMensagem: boolean = true;
+  monstrarItensMenu: boolean = false;
   constructor(private autentificacao: AutentificacaoService, private usarioService: CadastrarService) {
     
   }
@@ -27,5 +28,9 @@ export class HomeComponent implements OnInit{
 
   onLogout() {
     this.autentificacao.logout();
+  }
+
+  abrirMenu() {
+    this.monstrarItensMenu = !this.monstrarItensMenu
   }
 }
