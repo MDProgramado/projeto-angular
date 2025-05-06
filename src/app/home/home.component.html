@@ -1,27 +1,60 @@
 
-<header class="bg text-white text-center p-3 shadow border-bottom">
+<header class="bg-primary text-white text-center p-3 shadow border-bottom">
   <div class="d-flex justify-content-between align-items-center">
-  
-    <button class="btn btn-outline-primary">
-      <i class="bi bi-list me-2 text-primary"></i> Menu
+    <button class="btn btn-outline-light" (click)="abrirMenu()">
+      <i class="bi bi-list me-2"></i> Menu
     </button>
-
-    <div class="container">
-      <a href="/login"> Login </a>
-      <a href="/home"> Home  </a>
-      <a href="/dashbord"> Dashbord</a>
-    </div>
-   
-    <button class="btn btn-outline-primary" (click)="abrirMenu()">
+    <button class="btn btn-outline-light" (click)="abrirPerfil()">
       <i class="bi bi-person-circle me-2"></i> Perfil
     </button>
   </div>
 </header>
 
 
+<div class="overlay" *ngIf="mostrarItensMenu" (click)="fecharMenu()"></div>
+<div class="overlay" *ngIf="mostrarItensPerfil" (click)="fecharPerfil()"></div>
+
+
+<div class="sidebar menu bg-light shadow d-none d-md-block" [class.active]="mostrarItensMenu" (click)="$event.stopPropagation()">
+  <h5 class="mb-3 p-3  text-primary">Menu</h5> 
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item py-2 hover-bg-light">
+      <i class="bi bi-columns  me-2 text-primary" style="transition: transform 0.3s ease;"></i>
+      <a routerLink="/dashbord"> Dashboard</a>
+    </li>
+    <li class="list-group-item py-2 hover-bg-light">
+      <i class="bi bi-box-arrow-in-right me-2 text-primary " style="transition: transform 0.3s ease;"></i>
+      <a routerLink="/login"> Login </a>
+    </li>
+    <li class="list-group-item py-2 hover-bg-light">
+      <i class="bi bi-house-door me-2 text-primary " style="transition: transform 0.3s ease;"></i>
+      <a routerLink="/home"> Home </a>
+    </li>
+  </ul>
+</div>
+
+
+<div class="sidebar perfil bg-light shadow" [class.active]="mostrarItensPerfil" (click)="$event.stopPropagation()">
+  <div class="p-3">
+    <h5 class="mb-3 text-primary">Perfil</h5>
+
+   
+
+    <button class="btn btn-outline-danger w-100" (click)="onLogout()">
+      <i class="bi bi-box-arrow-left me-2"></i> Logout
+    </button>
+
+    <button class="btn btn-outline-secondary" (click)="mudarTema()">
+      <i [ngClass]="modoEscuro ? 'bi bi-sun' : 'bi bi-moon'"></i> 
+          {{ modoEscuro ? 'Modo Claro' : 'Modo Escuro' }}
+    </button>
+  </div>
+</div>
+
+
 
 <div *ngIf="mostrarMensagem" class="container mt-5">
-  <div class="card text-center shadow-lg">
+  <div class="card text-center shadow-lg position-absolute top-50 start-50 translate-middle shadow-lg" style="z-index: 1055;">
     <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
       <h4 class="mb-0">Boas-vindas ao Sistema de dados FORD</h4>
       <button type="button" class="btn-close btn-close-white" aria-label="Close" (click)="mostrarMensagem = false"></button>
@@ -32,24 +65,21 @@
       <p class="card-text">
         Gerencie informações, vizualize gráfricos e acesse relatórios da frota FORD.
       </p>
-      <a href="/dashbord" class="btn btn-primary">Dashboard</a>
+      <a routerLink="/dashbord" class="btn btn-primary">Dashboard</a>
     </div>
-    <div class="card-footer text-muted">
+    <div class="card-footer text-light">
       © 2025 Ford Motors
     </div>
   </div>
 </div>
 
 
-<div class="d-flex justify-content-center">
-  <img src="assets/img/broncoSport.png" alt="imagem ranger" class="img-fluid ">
+<div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+  <img src="assets/img/broncoSport.png" alt="imagem ranger" class="img-fluid">
 </div>
   
  
-  <button class="butao" (click)="onLogout()">
-    <i class="bi bi-box-arrow-left"> Logout</i>
-  </button>
-
+  
 
  
   

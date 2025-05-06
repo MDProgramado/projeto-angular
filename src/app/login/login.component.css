@@ -18,24 +18,9 @@
     
     
 }
-.logo img{
-    width: 90%;
-    
-}
-.logo {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 1.25rem;
-    margin-right: 1.0rem;
-}
 
-.titulo h2{
-    display: flex;
-    justify-content: center;
-    margin-top: 7rem;
-    color: #0d6efd;
-    padding: 0.5rem;
-}
+
+
 
 
 .login-container {
@@ -59,7 +44,7 @@
   }
   
   .form-control:focus {
-    border-color: #0d6efd; /* azul bonito */
+    border-color: #0d6efd; 
     outline: none;
     box-shadow: 0 0 5px rgba(13, 110, 253, 0.5);
   }
@@ -96,3 +81,15 @@
     color: red;
     font-size: 0.875rem;
 }
+
+.form-check {
+  display: flex;
+  align-items: center;
+  margin-left: 2.6rem;
+  gap: 0.5rem;
+}
+
+
+
+
+

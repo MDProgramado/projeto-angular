@@ -1,58 +1,56 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators, FormBuilder } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
+import { debounceTime } from 'rxjs/operators';
 import { AutentificarLoginService } from '../services/autentificar-login.service';
-import { Router } from '@angular/router';
-import { debounceTime } from 'rxjs';
-
-
 
 @Component({
   standalone: true,
   selector: 'app-login',
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterLink],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit{
+export class LoginComponent implements OnInit {
+  formulario!: FormGroup;
+  imagemLogo = 'assets/img/ford.png';
+  imagemFundo = 'assets/img/mustang.png';
+  titulo = 'Boas-vindas';
 
-  public imagemLogo: string = "assets/img/ford.png";
-  public imagemFundo: string = "assets/img/mustang.png";
-  public titulo: string = "Boas-vindas";
-  public formulario!: FormGroup;
+  constructor(
+    private fb: FormBuilder,
+    private service: AutentificarLoginService,
+    private router: Router
+  ) {}
 
-  constructor(private fb: FormBuilder, private service: AutentificarLoginService, private router: Router) {}
-
-
-  ngOnInit() {
+  ngOnInit(): void {
     this.inicializarFormulario();
-    const saved = localStorage.getItem('formData');
-    if (saved) this.formulario.patchValue(JSON.parse(saved));
-  
-    
+
+    if (this.temTokenSalvo()) {
+      this.router.navigateByUrl('/home');
+      return;
+    }
+
     this.formulario.valueChanges
-  .pipe(debounceTime(1500)) // Espera 1.5 segundos de inatividade
-  .subscribe(() => {
-    this.salvarDadosLocais();
-  });
+      .pipe(debounceTime(1500))
+      .subscribe(() => this.salvarDadosLocais());
   }
 
   onSubmit(): void {
     if (this.formulario.invalid) return;
-  
-    this.service.autentificarFormulario(this.formulario.value).subscribe({
-      next: (res) => {
-        console.log('Autenticado:', res);
 
-        localStorage.setItem('dadosDoUsuario', JSON.stringify({
-          nome: this.formulario.value.nome,
-          
-        }))
+    const { rememberMe, ...dadosLogin } = this.formulario.value;
 
+    this.service.autentificarFormulario(dadosLogin).subscribe({
+      next: (usuario) => {
+        console.log('Resposta da API:', usuario);
 
-        this.router.navigateByUrl('/home');
-       
+        if (usuario?.id) {
+          this.router.navigateByUrl('/home');
+        } else {
+          console.error('Usuário inválido');
+        }
       },
       error: (err) => {
         console.error('Falha no login:', err);
@@ -60,30 +58,36 @@ export class LoginComponent implements OnInit{
       }
     });
   }
- 
-  
-  inicializarFormulario() {
 
-    const dadosSalvos = JSON.parse(localStorage.getItem('formData') || '{}');
   
-    this.formulario = new FormGroup({
-      nome: new FormControl(dadosSalvos.nome || '', [Validators.required]),
-      senha: new FormControl('', [ 
-        Validators.required,
-        Validators.minLength(6)
-      ])
+  private inicializarFormulario(): void {
+    const dadosSalvos = this.obterDadosLocais();
+
+    this.formulario = this.fb.group({
+      nome: [dadosSalvos?.nome || '', Validators.required],
+      senha: ['', [Validators.required, Validators.minLength(6)]],
+      rememberMe: [false]
     });
   }
 
-  salvarDadosLocais() {
-    localStorage.setItem('formData', JSON.stringify(this.formulario.value));
+  private salvarDadosLocais(): void {
+    if (this.isBrowser()) {
+      localStorage.setItem('formData', JSON.stringify(this.formulario.value));
+    }
   }
 
-
+  private obterDadosLocais(): any {
+    if (this.isBrowser()) {
+      return JSON.parse(localStorage.getItem('formData') || '{}');
+    }
+    return {};
   }
 
+  private temTokenSalvo(): boolean {
+    return this.isBrowser() && !!localStorage.getItem('auth_token');
+  }
 
-
-
-
-
+  private isBrowser(): boolean {
+    return typeof window !== 'undefined';
+  }
+}

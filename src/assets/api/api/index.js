@@ -31,6 +31,7 @@ app.post("/login", async (req, res) => {
       id: 1,
       nome: "admin",
       email: "admin@email.com",
+      token: "fake-jwt-token-123"
     });
   } catch (error) {
     return res.status(500).json({

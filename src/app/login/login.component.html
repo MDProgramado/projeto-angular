@@ -1,16 +1,16 @@
-<div class="img-fundo"> 
-    <img  [src]="imagemFundo" alt="imagem de fundo">
+<div class="img-fundo w-50"> 
+    <img  [src]="imagemFundo" alt="imagem de fundo" class="img-fluid w-100">
 </div>
 
 <div class="login-container"> 
 
-<div class="logo"> 
-    <img  [src]="imagemLogo" alt="logo da ford">
+<div class="logo d-flex justify-content-center"> 
+    <img  [src]="imagemLogo" alt="logo da ford" class="img-fluid w-50 my-4">
 </div>
 
-<div class="titulo"> 
-    <h2>{{titulo}}  </h2>
-</div>
+
+    <h2 class="fw-bold text-primary text-shadow text-center my-4">{{titulo}}  </h2>
+
 
 <form [formGroup]="formulario" (ngSubmit)="onSubmit()">
 
@@ -49,8 +49,16 @@
     
      
     <div id="passwordHelpBlock" class="form-text">
-        Sua senha deve ter de 8 a 20 caracteres, conter letras e números...
+        Sua senha deve ter de 6 a 20 caracteres, conter letras e números...
       </div> 
+      
+      <div class="form-check form-switch d-flex align-items-center">
+        <input class="form-check-input" type="checkbox" id="rememberMe" formControlName="rememberMe">
+        <label class="form-check-label" for="rememberMe">
+          Manter-me conectado
+        </label>
+        
+      </div>
       <button 
       [disabled]="formulario.invalid"
       type="submit" [ngClass]="formulario.valid ? 'butao' : 'butao-desabitado'">
