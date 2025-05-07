@@ -4,13 +4,17 @@ import { AutentificacaoService } from '../services/autentificacao.service';
 import { Usuario } from '../../../models/usuario.model';
 import { CommonModule } from '@angular/common';
 import { BuscarDadosVeiculosService } from '../services/buscar-dados-veiculos.service';
-import { Veiculo } from '../../../models/veiculo.model';
-import { FormControl, FormGroup, FormsModule } from '@angular/forms';
+import { Veiculo, VeiculosData } from '../../../models/veiculo.model';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { catchError, of } from 'rxjs';
+import { error } from 'console';
 
 
 @Component({
   selector: 'app-dashboard',
-  imports: [CommonModule, RouterLink, FormsModule],
+  imports: [CommonModule, 
+    RouterLink, FormsModule, 
+    ReactiveFormsModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
@@ -25,58 +29,71 @@ export class DashboardComponent implements OnInit{
   mostrarToast = false;
   mensagemToast = '';
 
-  veiculos: Veiculo[] = [];
-  filtroVeiculos: Veiculo[] = [];
-  searchTerm: string = '';
+  veiculos: Veiculo[] | null;
+  selecionado = 0;
+  seletorDeCarros: number = 0 
   selectorVehicle?: Veiculo;
+
+  barraDePesquisa: FormControl = new FormControl('');
+  dadosVeiculosData: VeiculosData[] = [];
   
-  totalVendas = 0;
-  atualizacaoSoftware = 0;
-  modeloDestaque = '';
  
-  constructor(private autentificacao: AutentificacaoService, private buscarApi: BuscarDadosVeiculosService) {
+ 
+  constructor(
+    private autentificacao: AutentificacaoService, 
+    private buscarApi: BuscarDadosVeiculosService,
+    private buscarDadosService: BuscarDadosVeiculosService
+  ) {
     
   }
 
+  carroSelecionado():void {
+    this.selecionado = this.seletorDeCarros;
+    
+    if (this.veiculos && this.veiculos.length > this.selecionado) {
+      this.selectorVehicle = this.veiculos[this.selecionado];
+    }
+  }
 
   ngOnInit(): void {
-    this.buscarApi.getDadosDashboard().subscribe({
-      next: dados => {
-        this.veiculos = dados;
-        this.filtroVeiculos = [...dados];
-        this.calcularMetricas();
-      },
-      error: err => console.error('Erro ao carregar dados:', err)
+   this.buscarApi.getDadosDashboard().subscribe({
+      next: (carros: Veiculo[]) => {
+        this.veiculos = carros;
+
+        this.selectorVehicle = this.veiculos[0];
+        console.info('Carro selecionado:', this.veiculos);
+
+        console.info('selecionado:', this.selecionado)
+      }
     });
+
+ 
+
 
     if (this.modoEscuro) {
     document.body.classList.add('dark-mode');
   }
+
+  this.onSearch();
   }
+
 
   onSearch(): void {
-    const term = this.searchTerm.trim().toLowerCase();
-    this.filtroVeiculos = term? this.veiculos.filter(v =>
-          v.vehicle!.toLowerCase().includes(term)): [...this.veiculos];
-    this.calcularMetricas();
-    this.selectorVehicle = this.filtroVeiculos[0] || undefined;
-  }
-
-  private calcularMetricas(): void {
-    const listaVeiculos = this.filtroVeiculos;
-    if (listaVeiculos.length === 0) {
-      this.totalVendas = this.atualizacaoSoftware = 0;
-      return;
-    }
-    this.totalVendas = listaVeiculos.reduce((sum, v) => sum + (Number(v.volumetotal) || 0), 0);
-
-    this.atualizacaoSoftware = listaVeiculos.reduce((sum, v) => sum + (Number(v.softwareUpdates) || 0), 0);
-    
-    const destaque = listaVeiculos.reduce((p, c) =>
-      (c.volumetotal || 0) > (p.volumetotal || 0) ? c : p
-    );
-    this.modeloDestaque = destaque.vehicle || '-';
-    
+    const vin = this.barraDePesquisa.value?.trim();
+    if (!vin) return;
+  
+    console.log('onSearch disparado, VIN =', vin);
+    this.buscarDadosService.enviarDadosVeiculo(vin).subscribe({
+      next: arr => {
+        console.log('Resposta da API (array):', arr);
+        this.dadosVeiculosData = arr;
+        this.selecionado = this.seletorDeCarros;
+      },
+      error: err => {
+        console.error('Erro no subscribe:', err);
+        this.dadosVeiculosData = [];
+      }
+    });
   }
 
   abrirMenu() {
@@ -100,7 +117,7 @@ export class DashboardComponent implements OnInit{
     this.mostrarToast = true;
   }
 
-  mudarTema() {
+   mudarTema() {
     this.modoEscuro = !this.modoEscuro;
     console.log('Mudando para modo escuro?', this.modoEscuro);
   

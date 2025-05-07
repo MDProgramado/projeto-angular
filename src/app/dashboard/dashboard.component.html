@@ -63,21 +63,114 @@
   </div>
 </div>
 
-<h3 class="text-center text-primary my-4"> DASHBOARD FORD </h3>
- 
+<div class="container mt-5">
+  <h3 class="text-center text-primary mb-5">
+    <i class="bi bi-speedometer2 me-2"></i> DASHBOARD FORD
+  </h3>
+
+
+  <div class="mb-4">
+    <label for="selectDashboard" class="form-label fw-bold">Selecione um veículo</label>
+    <select
+      id="selectDashboard"
+      class="form-select shadow-sm"
+      [(ngModel)]="seletorDeCarros"
+      (change)="carroSelecionado()"
+      name="selectDashboard"
+    >
+      <option [value]="i" *ngFor="let v of veiculos; index as i">
+        {{ v.vehicle }}
+      </option>
+    </select>
+  </div>
+
+
+  <div *ngIf="selectorVehicle" class="row justify-content-center g-4 mb-4">
+
+  
+    <div class="col-md-3 col-sm-6">
+      <div class="card border-primary shadow-sm h-100 text-center">
+        <div class="card-body">
+          <i class="bi bi-car-front-fill fs-2 text-info mb-2"></i>
+          <h6 class="card-titletext-primary">Veículo</h6>
+          <p class="fs-5 fw-bold text-primary">{{ selectorVehicle.vehicle }}</p>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="col-md-3 col-sm-6">
+      <div class="card border-success shadow-sm h-100 text-center">
+        <div class="card-body">
+          <i class="bi bi-wifi fs-2 text-info mb-2"></i>
+          <h6 class="card-titletext-primary">Conectado</h6>
+          <p class="fs-5 fw-bold text-success">{{ selectorVehicle.connected }}</p>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="col-md-3 col-sm-6">
+      <div class="card border-info shadow-sm h-100 text-center">
+        <div class="card-body">
+          <i class="bi bi-bar-chart-line fs-2 text-info mb-2"></i>
+          <h6 class="card-titletext-primary">Total de Vendas</h6>
+          <p class="fs-5 fw-bold text-info">{{ selectorVehicle.volumetotal }}</p>
+        </div>
+      </div>
+    </div>
+
+  
+    <div class="col-md-3 col-sm-6">
+      <div class="card border-warning shadow-sm h-100 text-center">
+        <div class="card-body">
+          <i class="bi bi-arrow-repeat fs-2 text-info mb-2"></i>
+          <h6 class="card-titletext-primary">Atualizações de Software</h6>
+          <p class="fs-5 fw-bold text-warning">{{ selectorVehicle.softwareUpdates }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card shadow-sm h-100">
+        <div class="card-body text-center">
+          <i class="bi bi-image fs-2 text-info mb-2"></i>
+          <h6 class="card-titletext-primary">Imagem do Veículo</h6>
+          <img
+            *ngIf="selectorVehicle.img"
+            [src]="selectorVehicle.img"
+            alt="Imagem de {{ selectorVehicle.vehicle }}"
+            class="img-fluid rounded mt-3 shadow-sm"
+            style="max-height: 250px;"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
 <div class="container my-4">
   <div class="row justify-content-center mb-4">
     <div class="col-12 col-md-6">
       <div class="card border-0 shadow-sm">
         <div class="card-body d-flex">
+
+          
           <input
+            [formControl]="barraDePesquisa"
             name="search"
             type="text"
             class="form-control"
-            placeholder="Buscar modelo..."
-            [(ngModel)]="searchTerm"
-            (ngModelChange)="onSearch()"
+            placeholder="Pesquise pelo VIN"
           />
+
           <button
             class="btn btn-primary ms-2"
             (click)="onSearch()"
@@ -85,91 +178,31 @@
           >
             <i class="bi bi-search"></i>
           </button>
+          
         </div>
       </div>
     </div>
   </div>
-</div>
 
-
-
-
-
-
-<div class="container my-4">
-  <div class="row g-4 text-center d-flex justify-content-center">
-    
-    <div class="col-12 col-sm-6 col-md-3">
-      <div class="card stat-card border-0 shadow-sm">
-        <div class="card-body">
-          <i class="bi bi-bar-chart-line fs-2 text-primary mb-2"></i>
-          <h6 class="card-title fw-bold">Total de Vendas</h6>
-          <p class="card-text display-6 fw-semibold text-primary">{{ totalVendas }}</p>
+ 
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-6 mt-3">
+      <ng-container *ngIf="dadosVeiculosData.length > 0; else noData">
+        <div *ngFor="let item of dadosVeiculosData" class="card p-3 mb-2">
+          <p><strong>ID:</strong> {{ item.id }}</p>
+          <p><strong>Odômetro:</strong> {{ item.odometro }}</p>
+          <p><strong>Nível de Combustível:</strong> {{ item.nivelCombustivel }}</p>
+          <p><strong>Status:</strong> {{ item.status }}</p>
+          <p><strong>Latitude:</strong> {{ item.lat }}</p>
+          <p><strong>Longitude:</strong> {{ item.long }}</p>
         </div>
-      </div>
-    </div>
-
-    <div class="col-12 col-sm-6 col-md-3">
-      <div class="card stat-card border-0 shadow-sm">
-        <div class="card-body">
-          <i class="bi bi-arrow-repeat fs-2 text-info mb-2"></i>
-          <h6 class="card-title fw-bold">Atualização de Software</h6>
-          <p class="card-text display-6 fw-semibold text-primary">{{ atualizacaoSoftware }}</p>
+      </ng-container>
+      <ng-template #noData>
+        <div class="alert alert-warning text-center">
+          Nenhum dado encontrado para este VIN.
         </div>
-      </div>
-    </div>
-
-    <div class="col-12 col-sm-6 col-md-3">
-      <div class="card stat-card border-0 shadow-sm">
-        <div class="card-body">
-          <i class="bi bi-car-front fs-2 text-success mb-2"></i>
-          <h6 class="card-title fw-bold">Modelo</h6>
-          <p class="card-text display-6 fw-semibold text-primary">{{ modeloDestaque }}</p>
-        </div>
-      </div>
-    </div>
-
-   <div class="container my-4">
-  <h4 class="mb-4 text-center text-primary fw-bold">Veículos</h4>
-
-  <div class="row justify-content-center g-4">
-    <div class="col-12 col-sm-8 col-md-6 col-lg-4" *ngIf="selectorVehicle as v">
-      <div class="card shadow-lg h-100 bg-body text-body">
-        <img
-          [src]="v.img"
-          alt="Imagem do {{ v.vehicle }}"
-          class="card-img-top img-fluid rounded-top"
-          style="object-fit: cover; max-height: 200px;">
-
-        <div class="card-body text-center">
-          <h5 class="card-title fw-semibold text-primary">{{ v.vehicle }}</h5>
-          <p class="card-text mb-1">
-            <i class="bi bi-box-seam me-1 text-muted"></i>
-            <strong>Volume:</strong> {{ v.volumetotal }}
-          </p>
-          <p class="card-text">
-            <i class="bi bi-wifi me-1 text-muted"></i>
-            <strong>Conectados:</strong> {{ v.connected }}
-          </p>
-        </div>
-
-        <div class="card-footer bg-body border-top text-center">
-          <button class="btn btn-outline-primary btn-sm">
-            <i class="bi bi-info-circle me-1"></i> Detalhes
-          </button>
-        </div>
-        
-      </div>
+      </ng-template>
     </div>
   </div>
-   </div>
-
-    
-    
-    
-    
-
 </div>
-
-
 

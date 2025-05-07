@@ -10,7 +10,14 @@ export interface Veiculo{
   lastUpdate?: string
 }
 
-export interface VeiculosAPI {
-  vehicles?: Veiculos;
+export interface VeiculosData {
+
+    id?:string
+    vehicle?: string
+    odometro?: string
+    nivelCombustivel?: string
+    status?:string
+    lat?: string
+    long?: string
 }
 
