@@ -36,7 +36,7 @@ export class DashboardComponent implements OnInit{
 
   barraDePesquisa: FormControl = new FormControl('');
   dadosVeiculosData: VeiculosData[] = [];
-  
+  veiculoDetalhado?: VeiculosData;
  
  
   constructor(
@@ -47,6 +47,23 @@ export class DashboardComponent implements OnInit{
     
   }
 
+  ngOnInit(): void {
+    this.buscarApi.getDadosDashboard().subscribe({
+       next: (carros: Veiculo[]) => {
+         this.veiculos = carros;
+ 
+         this.selectorVehicle = this.veiculos[0];
+         console.info('Carro selecionado:', this.veiculos);
+ 
+         console.info('selecionado:', this.selecionado)
+       }
+     });
+ 
+     if (this.modoEscuro) {
+     document.body.classList.add('dark-mode');
+   }
+ 
+   }
   carroSelecionado():void {
     this.selecionado = this.seletorDeCarros;
     
@@ -55,27 +72,7 @@ export class DashboardComponent implements OnInit{
     }
   }
 
-  ngOnInit(): void {
-   this.buscarApi.getDadosDashboard().subscribe({
-      next: (carros: Veiculo[]) => {
-        this.veiculos = carros;
-
-        this.selectorVehicle = this.veiculos[0];
-        console.info('Carro selecionado:', this.veiculos);
-
-        console.info('selecionado:', this.selecionado)
-      }
-    });
-
  
-
-
-    if (this.modoEscuro) {
-    document.body.classList.add('dark-mode');
-  }
-
-  this.onSearch();
-  }
 
 
   onSearch(): void {
@@ -87,11 +84,14 @@ export class DashboardComponent implements OnInit{
       next: arr => {
         console.log('Resposta da API (array):', arr);
         this.dadosVeiculosData = arr;
-        this.selecionado = this.seletorDeCarros;
+
+        this.veiculoDetalhado = arr.length > 0 ? arr[0] : undefined;
+        this.carroSelecionado();        
       },
       error: err => {
         console.error('Erro no subscribe:', err);
         this.dadosVeiculosData = [];
+        this.veiculoDetalhado = undefined;
       }
     });
   }

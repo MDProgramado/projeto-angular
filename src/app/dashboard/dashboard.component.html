@@ -133,10 +133,10 @@
   </div>
 
 
-  <div class="row justify-content-center">
+  <div class="row justify-content-center border-primary">
     <div class="col-md-8">
       <div class="card shadow-sm h-100">
-        <div class="card-body text-center">
+        <div class="card border-primary text-center  ">
           <i class="bi bi-image fs-2 text-info mb-2"></i>
           <h6 class="card-titletext-primary">Imagem do Veículo</h6>
           <img
@@ -153,56 +153,79 @@
 </div>
 
 
-
-
-
 <div class="container my-4">
+ 
   <div class="row justify-content-center mb-4">
     <div class="col-12 col-md-6">
-      <div class="card border-0 shadow-sm">
-        <div class="card-body d-flex">
-
-          
-          <input
-            [formControl]="barraDePesquisa"
-            name="search"
-            type="text"
-            class="form-control"
-            placeholder="Pesquise pelo VIN"
-          />
-
-          <button
-            class="btn btn-primary ms-2"
-            (click)="onSearch()"
-            type="button"
-          >
-            <i class="bi bi-search"></i>
-          </button>
-          
-        </div>
+      <div class="input-group shadow-sm">
+        <span class="input-group-text bg-primary text-white">
+          <i class="bi bi-search"></i>
+        </span>
+        <input
+          [formControl]="barraDePesquisa"
+          name="search"
+          type="text"
+          class="form-control"
+          placeholder="Pesquise pelo VIN"
+          aria-label="Pesquise pelo VIN"
+        />
+        <button
+          class="btn btn-primary"
+          (click)="onSearch()"
+          type="button"
+          aria-label="Buscar"
+        >
+          Buscar
+        </button>
       </div>
     </div>
   </div>
 
- 
-  <div class="row justify-content-center">
-    <div class="col-12 col-md-6 mt-3">
-      <ng-container *ngIf="dadosVeiculosData.length > 0; else noData">
-        <div *ngFor="let item of dadosVeiculosData" class="card p-3 mb-2">
-          <p><strong>ID:</strong> {{ item.id }}</p>
-          <p><strong>Odômetro:</strong> {{ item.odometro }}</p>
-          <p><strong>Nível de Combustível:</strong> {{ item.nivelCombustivel }}</p>
-          <p><strong>Status:</strong> {{ item.status }}</p>
-          <p><strong>Latitude:</strong> {{ item.lat }}</p>
-          <p><strong>Longitude:</strong> {{ item.long }}</p>
-        </div>
-      </ng-container>
-      <ng-template #noData>
-        <div class="alert alert-warning text-center">
+
+  <div class="row">
+    <div class="col-12">
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover align-middle text-center">
+          <thead class="table-primary">
+            <tr>
+              <th scope="col" class="ford-blue"> <i class="bi bi-car-front"></i> Código - Vin</th>
+              <th scope="col" class="ford-blue"><i class="bi bi-speedometer2"></i> Odômetro</th>
+              <th scope="col" class="ford-blue"><i class="bi bi-fuel-pump"></i> Nível de Combustível</th>
+              <th scope="col" class="ford-blue"><i class="bi bi-info-circle"></i> Status</th>
+              <th scope="col" class="ford-blue"><i class="bi bi-geo-alt"></i> Lat.</th>
+              <th scope="col" class="ford-blue"><i class="bi bi-geo-alt"></i> Long.</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngIf="veiculoDetalhado; else semDados">
+              <td class="ford-grey"> {{ veiculoDetalhado.id }}</td>
+              <td class="ford-grey">{{ veiculoDetalhado.odometro }} Km</td>
+              <td class="ford-grey">{{ veiculoDetalhado.nivelCombustivel }} %</td>
+              <td class="ford-grey">
+                <i
+                  class="bi"
+                  [ngClass]="{
+                    'bi-circle-fill text-success': veiculoDetalhado.status === 'on',
+                    'bi-circle-fill text-danger': veiculoDetalhado.status === 'off'
+                  }"
+                ></i>
+                {{ veiculoDetalhado.status }}
+              </td>
+              <td class="ford-grey">{{ veiculoDetalhado.lat }}</td>
+              <td class="ford-grey">{{ veiculoDetalhado.long }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <ng-template #semDados>
+        <div class="alert alert-warning text-center" role="alert">
           Nenhum dado encontrado para este VIN.
         </div>
       </ng-template>
     </div>
   </div>
 </div>
+
+
+
 

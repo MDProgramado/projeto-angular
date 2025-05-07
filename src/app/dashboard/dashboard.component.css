@@ -65,3 +65,13 @@
     cursor: pointer;
     background-color: #f8f9fa;
   }
+
+  .ford-blue{
+    background-color: #0d6efd;
+    color: #ffff;
+  }
+
+  .ford-grey {
+    background-color: #adb5bd;;
+    color: #000000
+  }

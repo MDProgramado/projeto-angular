@@ -13,7 +13,7 @@ export interface Veiculo{
 export interface VeiculosData {
 
     id?:string
-    vehicle?: string
+    vehicle?: Veiculo
     odometro?: string
     nivelCombustivel?: string
     status?:string
