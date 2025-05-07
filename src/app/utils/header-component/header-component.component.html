@@ -1,0 +1,64 @@
+<header class="bg-primary text-white text-center p-3 shadow border-bottom">
+    <div class="d-flex justify-content-between align-items-center">
+      <button class="btn btn-outline-light" (click)="abrirMenu()">
+        <i class="bi bi-list me-2"></i> Menu
+      </button>
+      <button class="btn btn-outline-light" (click)="abrirPerfil()">
+        <i class="bi bi-person-circle me-2"></i> Perfil
+      </button>
+    </div>
+  </header>
+  
+  
+  <div class="overlay" *ngIf="mostrarItensMenu" (click)="fecharMenu()"></div>
+  <div class="overlay" *ngIf="mostrarItensPerfil" (click)="fecharPerfil()"></div>
+  
+  
+  <div class="sidebar menu bg-light shadow d-none d-md-block" [class.active]="mostrarItensMenu" (click)="$event.stopPropagation()">
+    <h5 class="mb-3 p-3  text-primary">Menu</h5> 
+    <ul class="list-group list-group-flush">
+  
+      <nav aria-label="breadcrumb" > 
+        <ol class="breadcrumb"> 
+          <li class="list-group-item py-2 hover-bg-light">
+            <i class="bi bi-columns  me-2 text-primary" style="transition: transform 0.3s ease;"></i>
+            <a routerLink="/dashbord"> Dashboard</a>
+          </li>
+        </ol>
+      </nav>
+      <nav aria-label="breadcrumb" > 
+          <ol class="breadcrumb"> 
+            <li class="list-group-item py-2 hover-bg-light">
+              <i class="bi bi-box-arrow-in-right me-2 text-primary " style="transition: transform 0.3s ease;"></i>
+              <a routerLink="/login"> Login </a>
+            </li>
+        </ol>
+    </nav>
+      <nav aria-label="breadcrumb"> 
+        <ol class="breadcrumb">
+      <li class=" breadcrumb-item list-group-item py-2 hover-bg-light">
+        <i class=" breadcrumb-item bi bi-house-door me-2 text-primary " style="transition: transform 0.3s ease;"></i>
+        <a routerLink="/home"> Home </a>
+      </li>
+    </ol>
+    </nav>
+    </ul>
+  </div>
+  
+  
+  <div class="sidebar perfil bg-light shadow" [class.active]="mostrarItensPerfil" (click)="$event.stopPropagation()">
+    <div class="p-3">
+      <h5 class="mb-3 text-primary">Perfil</h5>
+  
+     
+  
+      <button class="btn btn-outline-danger w-100" (click)="onLogout()">
+        <i class="bi bi-box-arrow-left me-2"></i> Logout
+      </button>
+  
+      <button class="btn btn-outline-secondary" (click)="mudarTema()">
+        <i [ngClass]="modoEscuro ? 'bi bi-sun' : 'bi bi-moon'"></i> 
+            {{ modoEscuro ? 'Modo Claro' : 'Modo Escuro' }}
+      </button>
+    </div>
+  </div>

@@ -3,11 +3,12 @@ import { RouterLink } from '@angular/router';
 import { AutentificacaoService } from '../services/autentificacao.service';
 import { Usuario } from '../../../models/usuario.model';
 import { CommonModule } from '@angular/common';
-import { Observable } from 'rxjs';
+import { HeaderComponentComponent } from "../utils/header-component/header-component.component";
+
 
 @Component({
   selector: 'app-home',
-  imports: [RouterLink, CommonModule],
+  imports: [RouterLink, CommonModule, HeaderComponentComponent],
   standalone: true,
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'

@@ -1,67 +1,5 @@
-<header class="bg-primary text-white text-center p-3 shadow border-bottom">
-  <div class="d-flex justify-content-between align-items-center">
-    <button class="btn btn-outline-light" (click)="abrirMenu()">
-      <i class="bi bi-list me-2"></i> Menu
-    </button>
-    <button class="btn btn-outline-light" (click)="abrirPerfil()">
-      <i class="bi bi-person-circle me-2"></i> Perfil
-    </button>
-  </div>
-</header>
 
-
-<div class="overlay" *ngIf="mostrarItensMenu" (click)="fecharMenu()"></div>
-<div class="overlay" *ngIf="mostrarItensPerfil" (click)="fecharPerfil()"></div>
-
-
-<div class="sidebar menu bg-light shadow d-none d-md-block" [class.active]="mostrarItensMenu" (click)="$event.stopPropagation()">
-  <h5 class="mb-3 p-3  text-primary">Menu</h5> 
-  <ul class="list-group list-group-flush">
-
-    <nav aria-label="breadcrumb" > 
-      <ol class="breadcrumb"> 
-        <li class="list-group-item py-2 hover-bg-light">
-          <i class="bi bi-columns  me-2 text-primary" style="transition: transform 0.3s ease;"></i>
-          <a routerLink="/dashbord"> Dashboard</a>
-        </li>
-      </ol>
-    </nav>
-    <nav aria-label="breadcrumb" > 
-        <ol class="breadcrumb"> 
-          <li class="list-group-item py-2 hover-bg-light">
-            <i class="bi bi-box-arrow-in-right me-2 text-primary " style="transition: transform 0.3s ease;"></i>
-            <a routerLink="/login"> Login </a>
-          </li>
-      </ol>
-  </nav>
-    <nav aria-label="breadcrumb"> 
-      <ol class="breadcrumb">
-    <li class=" breadcrumb-item list-group-item py-2 hover-bg-light">
-      <i class=" breadcrumb-item bi bi-house-door me-2 text-primary " style="transition: transform 0.3s ease;"></i>
-      <a routerLink="/home"> Home </a>
-    </li>
-  </ol>
-  </nav>
-  </ul>
-</div>
-
-
-<div class="sidebar perfil bg-light shadow" [class.active]="mostrarItensPerfil" (click)="$event.stopPropagation()">
-  <div class="p-3">
-    <h5 class="mb-3 text-primary">Perfil</h5>
-
-   
-
-    <button class="btn btn-outline-danger w-100" (click)="onLogout()">
-      <i class="bi bi-box-arrow-left me-2"></i> Logout
-    </button>
-
-    <button class="btn btn-outline-secondary" (click)="mudarTema()">
-      <i [ngClass]="modoEscuro ? 'bi bi-sun' : 'bi bi-moon'"></i> 
-          {{ modoEscuro ? 'Modo Claro' : 'Modo Escuro' }}
-    </button>
-  </div>
-</div>
+<app-header-component> </app-header-component>
 
 <div class="container mt-5">
   <h3 class="text-center text-primary mb-5">
@@ -103,7 +41,7 @@
       <div class="card border-success shadow-sm h-100 text-center">
         <div class="card-body">
           <i class="bi bi-wifi fs-2 text-info mb-2"></i>
-          <h6 class="card-titletext-primary">Conectado</h6>
+          <h6 class="card-titletext-primary">Veiculos conectado</h6>
           <p class="fs-5 fw-bold text-success">{{ selectorVehicle.connected }}</p>
         </div>
       </div>
@@ -144,7 +82,7 @@
             [src]="selectorVehicle.img"
             alt="Imagem de {{ selectorVehicle.vehicle }}"
             class="img-fluid rounded mt-3 shadow-sm"
-            style="max-height: 250px;"
+            style="max-height: 100%;"
           />
         </div>
       </div>
@@ -161,6 +99,7 @@
         <span class="input-group-text bg-primary text-white">
           <i class="bi bi-search"></i>
         </span>
+        
         <input
           [formControl]="barraDePesquisa"
           name="search"
@@ -168,15 +107,8 @@
           class="form-control"
           placeholder="Pesquise pelo VIN"
           aria-label="Pesquise pelo VIN"
-        />
-        <button
-          class="btn btn-primary"
           (click)="onSearch()"
-          type="button"
-          aria-label="Buscar"
-        >
-          Buscar
-        </button>
+        />
       </div>
     </div>
   </div>
