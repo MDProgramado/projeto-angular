@@ -42,8 +42,9 @@ export class LoginComponent implements OnInit {
 
     const { rememberMe, ...dadosLogin } = this.formulario.value;
 
-    this.service.autentificarFormulario(dadosLogin).subscribe({
-      next: (usuario) => {
+    //this.service.autentificarFormulario() = Escrever a carta e enviar
+    this.service.autentificarFormulario(dadosLogin).subscribe({ //Subscribe = "Quando a resposta chegar faça isso"
+      next: (usuario) => {       
         console.log('Resposta da API:', usuario);
 
         if (usuario?.id) {
@@ -71,14 +72,14 @@ export class LoginComponent implements OnInit {
   }
 
   private salvarDadosLocais(): void {
-    if (this.isBrowser()) {
-      localStorage.setItem('formData', JSON.stringify(this.formulario.value));
+    if (this.isBrowser()) {  //metodo usado para barrar o erro de renderização do SRR do angular aonde não existe o localStore 
+      localStorage.setItem('usuarioDados', JSON.stringify(this.formulario.value));
     }
   }
 
   private obterDadosLocais(): any {
     if (this.isBrowser()) {
-      return JSON.parse(localStorage.getItem('formData') || '{}');
+      return JSON.parse(localStorage.getItem('usuarioDados') || '{}');
     }
     return {};
   }
@@ -86,8 +87,12 @@ export class LoginComponent implements OnInit {
   private temTokenSalvo(): boolean {
     return this.isBrowser() && !!localStorage.getItem('auth_token');
   }
-
-  private isBrowser(): boolean {
-    return typeof window !== 'undefined';
+  private onRememberMeChange(event: any): void {
+  if (!event.target.checked) {
+    localStorage.removeItem('usuarioDados');
   }
+}
+ private isBrowser(): boolean {
+  return typeof window !== 'undefined' && typeof localStorage !== 'undefined';
+}
 }
