@@ -11,10 +11,9 @@ Este é um sistema completo de visualização e controle de dados de veículos d
 ![Tela de Login](./screenshots/pagina-login.png)
 
 ### Home
-![Home](./screenshots/pagina-home.png)
-
+![Tela home](./screenshots/pagina-home.png)
 ### Dashboard
-![Dashboard](./screenshots/pagina-dashboard.png)
+!![Tela de dashboard](./screenshots/pagina-dashboard.png)
 
 ---
 
