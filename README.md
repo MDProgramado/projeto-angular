@@ -7,7 +7,7 @@ Este é um sistema completo de visualização e controle de dados de veículos d
 
 ## 📸 Capturas de Tela
 
-*(Adicione aqui imagens em `docs/login.png`, `docs/dashboard.png`, etc.)*
+*(`pagina-login.png`, `pagina-home.png`, `pagina-dashboard.png` )*
 
 ---
 
