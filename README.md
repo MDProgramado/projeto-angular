@@ -5,9 +5,16 @@ Este é um sistema completo de visualização e controle de dados de veículos d
 
 ---
 
-## 📸 Capturas de Tela
+## Telas do Projeto
 
-*(`pagina-login.png`, `pagina-home.png`, `pagina-dashboard.png` )*
+### Tela de Login
+![Tela de Login](./screenshots/pagina-login.png)
+
+### Home
+![Home](./screenshots/pagina-home.png)
+
+### Dashboard
+![Dashboard](./screenshots/pagina-dashboard.png)
 
 ---
 
@@ -95,4 +102,4 @@ Este é um sistema completo de visualização e controle de dados de veículos d
 
 **Maicon Douglas Alves De Oliveira**  
 Estudante de engenharia da computação pela UFBA - Ciência e Tecnologia  
-[GitHub - @MMDProgramado](https://github.com/MDProgramado/)
+[GitHub - @MDProgramado](https://github.com/MDProgramado/)
